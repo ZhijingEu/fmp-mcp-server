@@ -6,6 +6,16 @@ the Financial Modeling Prep API via the Model Context Protocol.
 """
 import os
 import pathlib
+
+# Start - New section added to fix the path errors
+import sys
+from pathlib import Path
+# Ensure project root is on PYTHONPATH for Claude Desktop (Windows STDIO)
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+# End - New section added to fix the path errors
+
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -15,7 +25,38 @@ from mcp.server.fastmcp import FastMCP, Context
 
 # Import tools
 from src.tools.company import get_company_profile, get_company_notes
-from src.tools.statements import get_income_statement
+
+from src.tools.statements import (
+    get_income_statement,
+    get_balance_sheet,
+    get_cash_flow_statement,
+
+    # TTM statements
+    get_income_statement_ttm,
+    get_balance_sheet_ttm,
+    get_cash_flow_statement_ttm,
+
+    # Metrics & ratios
+    get_key_metrics,
+    get_key_metrics_ttm,
+    get_financial_ratios,
+    get_financial_ratios_ttm,
+    get_financial_scores,
+    get_owner_earnings,
+    get_enterprise_values,
+
+    # Growth
+    get_income_statement_growth,
+    get_balance_sheet_growth,
+    get_cash_flow_growth,
+    get_financial_statement_growth,
+
+    # Segmentation
+    get_revenue_product_segmentation,
+    get_revenue_geographic_segmentation,)
+
+from src.tools.peers import get_stock_peers
+
 from src.tools.search import search_by_symbol, search_by_name
 from src.tools.quote import get_quote, get_quote_change, get_aftermarket_quote
 from src.tools.charts import get_price_change
@@ -42,11 +83,15 @@ from src.prompts.templates import (
 )
 
 # Create the MCP server
-mcp = FastMCP(
-    "FMP Financial Data",
-    description="Financial data tools and resources powered by Financial Modeling Prep API",
-    dependencies=["httpx"]
-)
+
+# OLD version
+# mcp = FastMCP(
+#     "FMP Financial Data",
+#     description="Financial data tools and resources powered by Financial Modeling Prep API",
+#     dependencies=["httpx"]
+# )
+
+mcp = FastMCP("FMP Financial Data")
 
 # Register tools
 mcp.tool()(get_company_profile)
@@ -56,6 +101,36 @@ mcp.tool()(get_quote_change)
 mcp.tool()(get_aftermarket_quote)
 mcp.tool()(get_price_change)
 mcp.tool()(get_income_statement)
+mcp.tool()(get_balance_sheet)
+mcp.tool()(get_cash_flow_statement)
+
+# --- TTM Statements ---
+mcp.tool()(get_income_statement_ttm)
+mcp.tool()(get_balance_sheet_ttm)
+mcp.tool()(get_cash_flow_statement_ttm)
+
+# --- Metrics & Ratios ---
+mcp.tool()(get_key_metrics)
+mcp.tool()(get_key_metrics_ttm)
+mcp.tool()(get_financial_ratios)
+mcp.tool()(get_financial_ratios_ttm)
+mcp.tool()(get_financial_scores)
+mcp.tool()(get_owner_earnings)
+mcp.tool()(get_enterprise_values)
+
+# --- Growth ---
+mcp.tool()(get_income_statement_growth)
+mcp.tool()(get_balance_sheet_growth)
+mcp.tool()(get_cash_flow_growth)
+mcp.tool()(get_financial_statement_growth)
+
+# --- Segmentation ---
+mcp.tool()(get_revenue_product_segmentation)
+mcp.tool()(get_revenue_geographic_segmentation)
+
+# --- Peer comparison ---
+mcp.tool()(get_stock_peers)
+
 mcp.tool()(search_by_symbol)
 mcp.tool()(search_by_name)
 mcp.tool()(get_ratings_snapshot)
@@ -179,7 +254,7 @@ if __name__ == "__main__":
         # Re-register all tools using the same decorators approach
         # Import tools
         from src.tools.company import get_company_profile, get_company_notes
-        from src.tools.statements import get_income_statement
+        from src.tools.statements import get_income_statement,get_balance_sheet,get_cash_flow_statement
         from src.tools.search import search_by_symbol, search_by_name
         from src.tools.quote import get_quote, get_quote_change, get_aftermarket_quote
         from src.tools.charts import get_price_change
@@ -215,6 +290,36 @@ if __name__ == "__main__":
         streamable_mcp.tool()(get_aftermarket_quote)
         streamable_mcp.tool()(get_price_change)
         streamable_mcp.tool()(get_income_statement)
+        streamable_mcp.tool()(get_balance_sheet)
+        streamable_mcp.tool()(get_cash_flow_statement)
+
+        # --- TTM Statements ---
+        streamable_mcp.tool()(get_income_statement_ttm)
+        streamable_mcp.tool()(get_balance_sheet_ttm)
+        streamable_mcp.tool()(get_cash_flow_statement_ttm)
+
+        # --- Metrics & Ratios ---
+        streamable_mcp.tool()(get_key_metrics)
+        streamable_mcp.tool()(get_key_metrics_ttm)
+        streamable_mcp.tool()(get_financial_ratios)
+        streamable_mcp.tool()(get_financial_ratios_ttm)
+        streamable_mcp.tool()(get_financial_scores)
+        streamable_mcp.tool()(get_owner_earnings)
+        streamable_mcp.tool()(get_enterprise_values)
+
+        # --- Growth ---
+        streamable_mcp.tool()(get_income_statement_growth)
+        streamable_mcp.tool()(get_balance_sheet_growth)
+        streamable_mcp.tool()(get_cash_flow_growth)
+        streamable_mcp.tool()(get_financial_statement_growth)
+
+        # --- Segmentation ---
+        streamable_mcp.tool()(get_revenue_product_segmentation)
+        streamable_mcp.tool()(get_revenue_geographic_segmentation)
+
+        # --- Peer comparison ---
+        streamable_mcp.tool()(get_stock_peers)
+
         streamable_mcp.tool()(search_by_symbol)
         streamable_mcp.tool()(search_by_name)
         streamable_mcp.tool()(get_ratings_snapshot)
