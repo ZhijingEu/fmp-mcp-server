@@ -2,6 +2,10 @@
 
 A Model Context Protocol (MCP) server that provides tools, resources, and prompts for financial analysis using the Financial Modeling Prep API.
 
+⚠️ **Fork notice** 15 Jan 2026
+This is a temporary fork of `cdtait/fmp-mcp-server` containing proposed extensions to the Financial Modeling Prep (FMP) MCP server.
+The changes are intended to be upstreamed via Pull Request.
+
 ## Features
 
 - **Company Information**: Access detailed company profiles and peer comparisons
