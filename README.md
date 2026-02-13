@@ -2,9 +2,14 @@
 
 A Model Context Protocol (MCP) server that provides tools, resources, and prompts for financial analysis using the Financial Modeling Prep API.
 
-⚠️ **Fork notice** 15 Jan 2026
+⚠️ **Fork notice** 15 Jan 2026 (updated 14 Feb 2026)
 This is a temporary fork of `cdtait/fmp-mcp-server` containing proposed extensions to the Financial Modeling Prep (FMP) MCP server.
 The changes are intended to be upstreamed via Pull Request.
+Extensions added in this fork:
+- **DCF Valuation tools** (14 Feb 2026): Four new tools exposing FMP's discounted cash flow endpoints:
+  `get_discounted_cash_flow`, `get_levered_discounted_cash_flow`,
+  `get_custom_discounted_cash_flow` (with optional scenario overrides for bull/base/bear analysis),
+  `get_custom_levered_dcf`
 
 ## Features
 
@@ -23,6 +28,7 @@ The changes are intended to be upstreamed via Pull Request.
 - **Cryptocurrencies**: Access cryptocurrency listings and current quotes
 - **Forex**: Get forex pair listings and exchange rates
 - **Technical Indicators**: Calculate and interpret Exponential Moving Average (EMA)
+- **DCF Valuation**: Discounted cash flow valuation (standard, levered, and custom with scenario overrides)
 - **Analysis Prompts**: Generate investment analyses using predefined prompt templates
 - **Chat Agent**: Interactive CLI chat interface to FMP MCP Server
 - **Multiple Transport Options**: Support for stdio, SSE, and Streamable HTTP transports
@@ -49,6 +55,7 @@ The codebase is organized to align with the FMP API documentation structure foun
 - **search.py**: API for searching tickers and companies
 - **statements.py**: Financial statements (income, balance sheet, cash flow, ratios)
 - **technical_indicators.py**: Technical indicators and analysis
+- **valuation.py**: DCF valuation tools (discounted cash flow, levered DCF, custom DCF with scenario overrides)
 
 ### API Endpoint Standardization
 

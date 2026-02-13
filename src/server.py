@@ -70,6 +70,12 @@ from src.tools.commodities import get_commodities_list, get_commodities_prices, 
 from src.tools.crypto import get_crypto_list, get_crypto_quote
 from src.tools.forex import get_forex_list, get_forex_quotes
 from src.tools.technical_indicators import get_ema
+from src.tools.valuation import (
+    get_discounted_cash_flow,
+    get_levered_discounted_cash_flow,
+    get_custom_discounted_cash_flow,
+    get_custom_levered_dcf,
+)
 
 # Import resources
 from src.resources.company import get_stock_info_resource, get_financial_statement_resource, get_stock_peers_resource, get_price_targets_resource
@@ -160,6 +166,12 @@ mcp.tool()(get_forex_list)
 mcp.tool()(get_forex_quotes)
 mcp.tool()(get_ema)
 
+# --- DCF Valuation ---
+mcp.tool()(get_discounted_cash_flow)
+mcp.tool()(get_levered_discounted_cash_flow)
+mcp.tool()(get_custom_discounted_cash_flow)
+mcp.tool()(get_custom_levered_dcf)
+
 # Register resources
 mcp.resource("stock-info://{symbol}")(get_stock_info_resource)
 mcp.resource("market-snapshot://current")(get_market_snapshot_resource)
@@ -243,14 +255,22 @@ if __name__ == "__main__":
         from mcp.server.fastmcp import FastMCP
         
         # Create new FastMCP instance with desired configuration
+
+        # OLD SYNTAX UPDATED 
+        # streamable_mcp = FastMCP(
+        #     "FMP Financial Data",
+        #     description="Financial data tools and resources powered by Financial Modeling Prep API",
+        #     dependencies=["httpx"],
+        #     stateless_http=args.stateless,
+        #     json_response=args.json_response
+        # )
+        
         streamable_mcp = FastMCP(
             "FMP Financial Data",
-            description="Financial data tools and resources powered by Financial Modeling Prep API",
-            dependencies=["httpx"],
             stateless_http=args.stateless,
             json_response=args.json_response
         )
-        
+
         # Re-register all tools using the same decorators approach
         # Import tools
         from src.tools.company import get_company_profile, get_company_notes
@@ -269,7 +289,13 @@ if __name__ == "__main__":
         from src.tools.crypto import get_crypto_list, get_crypto_quote
         from src.tools.forex import get_forex_list, get_forex_quotes
         from src.tools.technical_indicators import get_ema
-        
+        from src.tools.valuation import (
+            get_discounted_cash_flow,
+            get_levered_discounted_cash_flow,
+            get_custom_discounted_cash_flow,
+            get_custom_levered_dcf,
+        )
+
         # Import resources
         from src.resources.company import get_stock_info_resource, get_stock_peers_resource, get_price_targets_resource
         # get_financial_statement_resource not currently used
@@ -342,7 +368,13 @@ if __name__ == "__main__":
         streamable_mcp.tool()(get_forex_list)
         streamable_mcp.tool()(get_forex_quotes)
         streamable_mcp.tool()(get_ema)
-        
+
+        # --- DCF Valuation ---
+        streamable_mcp.tool()(get_discounted_cash_flow)
+        streamable_mcp.tool()(get_levered_discounted_cash_flow)
+        streamable_mcp.tool()(get_custom_discounted_cash_flow)
+        streamable_mcp.tool()(get_custom_levered_dcf)
+
         # Register resources
         streamable_mcp.resource("stock-info://{symbol}")(get_stock_info_resource)
         streamable_mcp.resource("market-snapshot://current")(get_market_snapshot_resource)
