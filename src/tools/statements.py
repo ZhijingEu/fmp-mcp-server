@@ -219,6 +219,8 @@ async def get_balance_sheet(symbol: str, period: str = "annual", limit: int = 1)
 
         # Non-Current Liabilities
         result.append(f"**Long-Term Debt**: ${format_number(statement.get('longTermDebt', 'N/A'))}")
+        result.append(f"**Total Debt**: ${format_number(statement.get('totalDebt', 'N/A'))}")
+        result.append(f"**Capital Lease Obligations**: ${format_number(statement.get('capitalLeaseObligations', 'N/A'))}")
         result.append(f"**Deferred Revenue (Non-Current)**: ${format_number(statement.get('deferredRevenueNonCurrent', 'N/A'))}")
         result.append(f"**Deferred Tax Liabilities**: ${format_number(statement.get('deferredTaxLiabilitiesNonCurrent', 'N/A'))}")
         result.append(f"**Other Non-Current Liabilities**: ${format_number(statement.get('otherNonCurrentLiabilities', 'N/A'))}")
@@ -309,7 +311,13 @@ async def get_cash_flow_statement(symbol: str, period: str = "annual", limit: in
         result.append(f"**Debt Issuance (Net)**: ${format_number(statement.get('netDebtIssuance', 'N/A'))}")
         result.append(f"**Common Stock Issued**: ${format_number(statement.get('commonStockIssued', 'N/A'))}")
         result.append(f"**Common Stock Repurchased**: ${format_number(statement.get('commonStockRepurchased', 'N/A'))}")
-        result.append(f"**Dividends Paid**: ${format_number(statement.get('dividendsPaid', 'N/A'))}")
+        dividends_paid = (statement.get('commonDividendsPaid')
+                          or statement.get('netDividendsPaid')
+                          or statement.get('dividendsPaid'))
+        result.append(f"**Dividends Paid**: ${format_number(dividends_paid if dividends_paid is not None else 'N/A')}")
+        result.append(f"**Preferred Dividends Paid**: ${format_number(statement.get('preferredDividendsPaid', 'N/A'))}")
+        result.append(f"**Income Taxes Paid**: ${format_number(statement.get('incomeTaxesPaid', 'N/A'))}")
+        result.append(f"**Interest Paid**: ${format_number(statement.get('interestPaid', 'N/A'))}")
         result.append(f"**Other Financing Activities**: ${format_number(statement.get('otherFinancingActivites', 'N/A'))}")
         result.append(f"**Net Financing Cash Flow**: ${format_number(statement.get('netCashUsedProvidedByFinancingActivities', 'N/A'))}")
 
