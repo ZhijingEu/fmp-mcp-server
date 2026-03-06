@@ -2,6 +2,25 @@
 
 A Model Context Protocol (MCP) server that provides tools, resources, and prompts for financial analysis using the Financial Modeling Prep API.
 
+> **SUPERSEDED -- 2026-03-07**
+> FMP now publishes an official hosted MCP server that wraps their full REST API (~250 tools).
+> This fork is no longer maintained. Use the official server instead.
+>
+> **Official FMP MCP documentation:** https://site.financialmodelingprep.com/developer/docs/mcp-server
+>
+> **Config (add to `.mcp.json` or equivalent MCP client config):**
+> ```json
+> "FMP-MCP-Official": {
+>   "type": "http",
+>   "url": "https://financialmodelingprep.com/mcp?apikey=YOUR_FMP_API_KEY"
+> }
+> ```
+>
+> Use your existing FMP API key. Use `"type": "http"` -- `"type": "sse"` does not work.
+> Note: the official docs page may return HTTP 403 for automated fetches; the config above is all you need.
+
+---
+
 ⚠️ **Fork notice** 15 Jan 2026 (updated 14 Feb 2026)
 This is a temporary fork of `cdtait/fmp-mcp-server` containing proposed extensions to the Financial Modeling Prep (FMP) MCP server.
 The changes are intended to be upstreamed via Pull Request.
