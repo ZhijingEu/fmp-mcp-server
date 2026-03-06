@@ -14,9 +14,16 @@ def _fmt(value) -> str:
 
 
 def _pct(value) -> str:
-    """Format a decimal as percentage string (0.087 -> '8.70%')."""
+    """Format a rate as percentage string.
+
+    FMP DCF endpoints return rates as already-percentage values (e.g. 14.9 = 14.9%),
+    not decimals (0.149). Guard: multiply by 100 only if value <= 1.0 (decimal form);
+    display as-is if > 1.0 (already percentage form). Prevents x100 double-application
+    bug (e.g. 14.9 -> 1490%) when FMP returns percentage-form values.
+    """
     if isinstance(value, (int, float)):
-        return f"{value * 100:.2f}%"
+        display = value * 100 if value <= 1.0 else value
+        return f"{display:.2f}%"
     return "N/A"
 
 
